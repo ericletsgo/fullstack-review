@@ -18,16 +18,18 @@ class App extends React.Component {
     // TODO
     $.ajax({
       url: 'http://localhost:1128/',
-      type: 'POST',
+      method: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify(term),
+      data: JSON.stringify({
+        term: term
+      }),
       success: (data) => {
         console.log('success');
       },
-      error: (data) => {
+      error: () => {
         console.log('failed');
       }
-    })
+    });
   }
 
   render () {

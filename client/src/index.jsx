@@ -21,12 +21,10 @@ class App extends React.Component {
     $.ajax({
       url: 'http://localhost:1128/Repos',
       method: 'GET',
-      // dataType: 'application/json',
       success: (data) => {
-        // console.log(Array.isArray(data))
         this.setState({
           repos: data
-        }, () => console.log(this.state.repos))
+        });
       },
       error: (data) => {
         console.log('init error')
@@ -35,7 +33,6 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was searched`);
     $.ajax({
       url: 'http://localhost:1128/Repos',
       method: 'POST',
@@ -45,9 +42,10 @@ class App extends React.Component {
       }),
       success: (data) => {
         console.log('success');
+        this.init();
       },
       error: () => {
-        console.log('failed');
+        console.log('post failed');
       }
     });
   }
@@ -55,11 +53,10 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <h4> Repo List Component </h4>
-      There are {this.state.repos.length} repos.
-      {this.state.repos.map(repo => <RepoList repoUrl={repo.repositoryUrl} repoTitle={repo.repo_name}/>)}
-      // <RepoList repos={this.state.repos} />
       <Search onSearch={this.search.bind(this)}/>
+      <h4> Repo List Component </h4>
+      <p>There are {this.state.repos.length} repos.</p>
+      {this.state.repos.map(repo => <RepoList repoUrl={repo.repositoryUrl} repoTitle={repo.repo_name}/>)}
     </div>)
   }
 }

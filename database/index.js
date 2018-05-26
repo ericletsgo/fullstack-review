@@ -15,7 +15,7 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => {
+let save = (data, callback) => {
   for (var i = 0; i < data.length; i++) {
     var username = new Repo({
       id: data[i].id,
@@ -25,9 +25,7 @@ let save = (data) => {
       repositoryUrl: data[i].url,
       stargazers_count: data[i].stargazers_count
     });
-    username.save((err, data) => {
-      if (err) console.log(err);
-    });
+    username.save(callback);
   }
 }
 

@@ -2,7 +2,7 @@ const request = require('request');
 const config = require('../config.js');
 const db = require('../database/index.js');
 
-let getReposByUsername = (username) => {
+let getReposByUsername = (username, callback) => {
   let options = {
     url: 'https://api.github.com/',
     headers: {
@@ -16,9 +16,9 @@ let getReposByUsername = (username) => {
     headers: options.headers,
   }, (err, response, body) => {
     if (err) {
-      console.log(err);
+      callback(err, null);
     } else {
-      db.save(JSON.parse(body));
+      db.save(JSON.parse(body), callback);
     }
   })
 

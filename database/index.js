@@ -7,7 +7,7 @@ let repoSchema = mongoose.Schema({
     unique: true
   },
   'owner': String,
-  'repo-name': String,
+  'repo_name': String,
   'description': String,
   'repositoryUrl': String,
   'stargazers_count': Number,

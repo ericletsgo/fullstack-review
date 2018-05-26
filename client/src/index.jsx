@@ -23,9 +23,10 @@ class App extends React.Component {
       method: 'GET',
       // dataType: 'application/json',
       success: (data) => {
-        // let top = JSON.parse(data);
-        console.log(data);
-        // console.log('I got it')
+        // console.log(Array.isArray(data))
+        this.setState({
+          repos: data
+        }, () => console.log(this.state.repos))
       },
       error: (data) => {
         console.log('init error')
@@ -54,7 +55,10 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <h4> Repo List Component </h4>
+      There are {this.state.repos.length} repos.
+      {this.state.repos.map(repo => <RepoList repoUrl={repo.repositoryUrl} repoTitle={repo.repo_name}/>)}
+      // <RepoList repos={this.state.repos} />
       <Search onSearch={this.search.bind(this)}/>
     </div>)
   }

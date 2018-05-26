@@ -13,11 +13,30 @@ class App extends React.Component {
 
   }
 
+  componentDidMount() {
+    this.init();
+  }
+
+  init() {
+    $.ajax({
+      url: 'http://localhost:1128/Repos',
+      method: 'GET',
+      // dataType: 'application/json',
+      success: (data) => {
+        // let top = JSON.parse(data);
+        console.log(data);
+        // console.log('I got it')
+      },
+      error: (data) => {
+        console.log('init error')
+      }
+    });
+  }
+
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
     $.ajax({
-      url: 'http://localhost:1128/',
+      url: 'http://localhost:1128/Repos',
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({

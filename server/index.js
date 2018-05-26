@@ -1,26 +1,29 @@
-const db = require('../database/index.js');
 const helper = require('../helpers/github.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb://localhost:27017/";
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 
-app.post('/', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+app.post('/Repos', function (req, res) {
   var username = req.body.term;
 
-  console.log(helper.getReposByUsername(username));
-
+  helper.getReposByUsername(username);
 });
 
-app.get('/', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+app.get('/Repos', function (req, res) {
+  MongoClient.connect(url, (err, db) => {
+    if (err) console.log('Connection error:', err);
+    var dbo = db.db('fetcher');
+    dbo.collection('repos').find().sort({stargazers_count: -1}).limit(25).toArray((err, result) => {
+        if (err) console.log('Database error:', err);
+        res.send(result);
+    });
+  });
+  // res.send('hello')
 });
 
 let port = 1128;

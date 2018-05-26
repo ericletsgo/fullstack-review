@@ -7,7 +7,8 @@ let repoSchema = mongoose.Schema({
   'repo-name': String,
   'description': String,
   'repositoryUrl': String,
-  'stargazers_count': Number
+  'stargazers_count': Number,
+  'unique': true
 });
 
 let Repo = mongoose.model('Repo', repoSchema);

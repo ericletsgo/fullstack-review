@@ -1,5 +1,6 @@
 const request = require('request');
 const config = require('../config.js');
+const db = require('../database/index.js');
 
 let getReposByUsername = (username) => {
   // TODO - Use the request module to request repos for a specific
@@ -14,9 +15,17 @@ let getReposByUsername = (username) => {
       'Authorization': `token ${config.TOKEN}`
     }
   };
-  request(options.url + username, (error, response, body) => {
-
-  });
+  request({
+    method: 'GET',
+    url: options.url + 'users/' + username + '/repos',
+    headers: options.headers,
+  }, (err, response, body) => {
+    if (err) {
+      console.log(err);
+    } else {
+      db.save(JSON.parse(body));
+    }
+  })
 
 }
 
